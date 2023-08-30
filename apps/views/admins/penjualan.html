@@ -1,0 +1,66 @@
+<div class="content-header">
+  <div class="container-fluid">
+    <h1 class="m-0">Penjualan</h1>
+  </div><!-- /.container-fluid -->
+</div>
+
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Data Penjualan</h3>
+
+          <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+              <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+              <div class="input-group-append">
+                <button type="submit" class="btn btn-default">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+              <div class="input-group-append">
+                <a href="#!/admin/penjualanbaru"  class="btn btn-default">
+                  <i class="fas fa-plus"></i>
+                </a>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0" style="height: 300px;">
+          <table class="table table-head-fixed text-nowrap">
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>Pengirim</th>
+                <th>Penerima</th>
+                <th>Dari/Tujuan</th>
+                <th>jumlah</th>
+                <th>Berat</th>
+                <th>Harga</th>
+                <th>Biaya</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr ng-repeat="a in data">
+                <td>{{a.stt}}</td>
+                <td>{{a.pengirim_nama}}</td>
+                <td>{{a.penerima_nama}}</td>
+                <td>{{a.penerima_kota}}/{{a.pengirim_kota}}</td>
+                <td>{{a.jumlah}}</td>
+                <td>{{a.berat}}</td>
+                <td>{{a.harga}}</td>
+                <td>{{a.harga * a.berat}}</td>
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
