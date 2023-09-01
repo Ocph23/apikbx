@@ -1,0 +1,180 @@
+<div class="card card-default" style="margin-top: 20px;">
+  <div class="card-header">
+    <h3 class="card-title">Penjualan Baru</h3>
+  </div>
+  <form ng-submit="save()">
+    <!-- /.card-header -->
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>NO STT</label>
+            <input required ng-model="model.stt" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Tanggal</label>
+            <input required ng-model="model.tanggal" type="date" class="form-control">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+
+          <div class="card card-warning">
+            <div class="card-header">
+              <h3 class="card-title">Pengirim</h3>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label>Nama</label>
+                <input required required ng-model="model.pengirim_nama" type="text" class="form-control">
+              </div>
+
+              <div class="form-group">
+                <label>Alamat </label>
+                <textarea ng-model="model.pengirim_alamat" class="form-control"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Kota</label>
+                <input required ng-model="model.asal" type="text" class="form-control">
+              </div>
+            </div>
+          </div>
+
+
+          <!-- /.form-group -->
+
+        </div>
+        <!-- /.col -->
+        <div class="col-md-6">
+          <div class="card card-warning">
+            <div class="card-header">
+              <h3 class="card-title">Penerima</h3>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label>Nama</label>
+                <input required required ng-model="model.penerima_nama" type="text" class="form-control">
+              </div>
+
+              <div class="form-group">
+                <label>Alamat </label>
+                <textarea ng-model="model.penerima_alamat" class="form-control"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Kota</label>
+                <input required ng-model="model.tujuan" type="text" class="form-control">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr />
+
+      <div class="row">
+        <div class="col-md-12">
+
+          <div class="card card-warning">
+            <div class="card-header">
+              <div style="display: flex ; justify-content: space-between;">
+                <h3 class="card-title">Detail Barang</h3>
+                <div style="display: flex; width: 100px;">
+                  <label>Dimensi?</label>
+                  <input ng-change="changeHargaAndBerat()"  ng-model="model.isvolume" type="checkbox" class="form-control"
+                    style="height: 1.5rem !important;">
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>Jumlah</label>
+                    <input required ng-model="model.jumlah" min="1" type="number" class="form-control">
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Nama Barang</label>
+                    <input required ng-model="model.nama_barang" type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-md-4" ng-show="!model.isvolume">
+                  <div class="form-group">
+                    <label>Berat</label>
+                    <input required ng-change="changeHargaAndBerat()" min="{{model.isvolume?0:1}}" ng-model="model.berat" type="number" class="form-control">
+                  </div>
+                </div>
+
+                <div ng-show="model.isvolume" class="col-md-4">
+                  <div class="form-group">
+                    <label>Volume (cm)</label>
+                   <div style="display: flex;">
+                    <input required placeholder="P"  min="{{!model.isvolume?0:1}}" ng-change="changeHargaAndBerat()" ng-model="model.dimensi_panjang" type="number" class="form-control">
+                    <input required placeholder="L"  min="{{!model.isvolume?0:1}}" ng-change="changeHargaAndBerat()" ng-model="model.dimensi_lebar" type="number" class="form-control">
+                    <input required placeholder="T"  min="{{!model.isvolume?0:1}}" ng-change="changeHargaAndBerat()" ng-model="model.dimensi_tinggi" type="number" class="form-control">
+                   </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Catatan</label>
+            <textarea ng-model="model.catatan" type="text" class="form-control"></textarea>
+          </div>
+          <div class="form-group">
+            <label>User</label>
+            <input required ng-model="model.user" type="text" class="form-control">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Tarif</label>
+            <div class="col-sm-8">
+              <input required ng-change="changeHargaAndBerat()" min="1" ng-model="model.tarif" type="number" class="form-control">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Biaya</label>
+            <div class="col-sm-8">
+              <input readonly ng-model="biaya" type="number" class="form-control">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Biaya Packing</label>
+            <div class="col-sm-8">
+              <input required ng-change="changeHargaAndBerat()" ng-model="model.biaya_packing" type="number" class="form-control">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Biaya Lain-Lain</label>
+            <div class="col-sm-8">
+              <input required ng-change="changeHargaAndBerat()" ng-model="model.biaya_lain" type="number" class="form-control">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label">Total</label>
+            <div class="col-sm-8">
+              <input readonly value="{{total | number : 2}}" type="text" class="form-control">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <button style="width: 100%;" class="btn btn-success " type="submit">Save</button>
+      </div>
+    </div>
+
+  </form>
+</div>

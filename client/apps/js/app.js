@@ -1,0 +1,13 @@
+angular.module("app",
+[
+    "app.router",
+    "swangular",
+    "message.service",
+    "auth.service",
+    "storage.services",
+    "helper.service",
+    "app.conponent",
+    "auth.controller",
+    "admin.controller",
+    "main.controller",
+]);

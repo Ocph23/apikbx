@@ -2,34 +2,25 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
+
+const penjualanRoute = require('./server/penjualan');
+const trackingRoute = require('./server/tracking');
+const userRouter = require('./server/auth');
+const helper = require('./server/helper');
+const database = require('./server/database')
+
+database.generateAdmin();
+
 app.use(express.json());
+app.use("/", express.static("./client"));
+app.use('/scripts', express.static(__dirname + '/node_modules/'));
 
-var connection = require("./server/database");
 
-app.use("/", express.static("./"));
-
-app.get("/api/penjualan", (req, res) => {
-  connection.query(
-    "SELECT * FROM penjualan ORDER BY id desc",
-    function (err, rows) {
-      res.send(rows);
-    }
-  );
-});
-
-app.post("/api/penjualan", (req, res) => {
-  var data = req.body;
-  data.tanggal = new Date(data.tanggal);
-  connection.query("insert into penjualan SET ?",
-    data, (err, rows)=> {
-      if(err){
-        return res.status(500).json({ message: 'Gagal insert data!', error: err });
-      }
-      res.status(201).json({ success: true, message: 'Berhasil insert data!' });
-    }
-  );
-});
+app.use("/api", penjualanRoute);
+app.use("/api/tracking", trackingRoute);
+app.use("/api/auth", userRouter);
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Example app listening on http://localhost:${port}`);
 });

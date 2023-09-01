@@ -1,0 +1,128 @@
+<div class="content-header">
+    <div class="container-fluid">
+        <h1 class="m-0">Riwayat Tracking</h1>
+    </div><!-- /.container-fluid -->
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+
+        <div class="card card-warning">
+            <div class="card-header">
+                <h3 class="card-title">Pengirim</h3>
+            </div>
+            <div class="card-body">
+                <div>{{model.pengirim_nama}}</div>
+                <div>{{model.pengirim_alamat}}</div>
+                <div>{{model.asal}}</div>
+            </div>
+        </div>
+    </div>
+    <!-- /.col -->
+    <div class="col-md-6">
+        <div class="card card-warning">
+            <div class="card-header">
+                <h3 class="card-title">Penerima</h3>
+            </div>
+            <div class="card-body">
+                <div>{{model.penerima_nama}}</div>
+                <div>{{model.penerima_alamat}}</div>
+                <div>{{model.tujuan}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Data Tracking</h3>
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 200px;">
+                        <input type="text" ng-model="searchText" name="table_search" class="form-control float-right"
+                            placeholder="Search">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        <div class="input-group-append">
+                            <button ng-click="createNew()" type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#exampleModal">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0" style="height: 300px;">
+                <table class="table table-head-fixed text-nowrap">
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Deskripsi</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="a in model.tracking">
+                            <td>{{a.tanggal | date:'dd-MM-yyyy | HH:mm'}}</td>
+                            <td>{{a.deskripsi}}</td>
+                            <td>{{a.status}}</td>
+                            <td>
+                                <button ng-click="edit(a)" style="padding: 5px 10px;" data-toggle="modal"
+                                    data-target="#exampleModal" class="btn btn-warning"> <i class="fas fa-edit"></i>
+                                </button>
+                                <button style="padding: 5px 10px;" class="btn btn-danger" ng-click="delete(a)">
+                                    <i class="fas fa-trash"></i> </button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form ng-submit="save()">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Tambah/Edit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Tanggal</label>
+                        <input required required ng-model="tracking.tanggal" step="any" type="datetime-local" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Deskripsi </label>
+                        <textarea required ng-model="tracking.deskripsi" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <input required ng-model="tracking.status" type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
