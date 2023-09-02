@@ -18,6 +18,7 @@
     "angular-datatables": "^16.0.0",
     "angular-local-storage": "^0.7.1",
     "angular-route": "^1.8.3",
+    "animate.css": "^4.1.1",
     "body-parser": "^1.20.2",
     "bootstrap-datepicker": "^1.10.0",
     "datatables.net-bs4": "^1.13.6",

@@ -1,0 +1,22 @@
+.bex-color {
+    color: #ff600e;
+}
+
+.bex-bgcolor {
+    background-color: #ff600e;
+
+}
+
+.pertanyaan {
+    font-weight: bold;
+    font-size: medium;
+    color: black;
+}
+
+.heading-title {
+    margin-top: 100px;
+    color: #000000;
+    font-size: 37px;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+}

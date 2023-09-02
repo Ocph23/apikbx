@@ -1,0 +1,15 @@
+
+<div class="row">
+    <div class="container">
+        <div class="p-5 d-flex align-items-center flex-column">
+            <h4 class="heading-title">Produk & Layanan</h4>
+        </div>
+        <div ng-repeat="data in products" class="row m-5">
+           <div class="col-md-4 d-flex flex-column align-items-center   animate__animated animate__fadeInLeft">
+                <img class="text-center" style="width: 30%;" src="{{data.picture}}">
+                <h4 style="font-weight: bold;" class="text-center">{{data.title}}</h4>
+           </div>
+           <div class="col-md-6 text-justify">{{data.content}}</div>
+        </div>
+    </div>
+</div>
