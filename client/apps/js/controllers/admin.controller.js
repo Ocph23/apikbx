@@ -3,7 +3,9 @@ angular
   .controller("adminController", adminController)
   .controller("adminPenjualanController", AdminPenjualanController)
   .controller("adminPenjualanRiwayatTracingController", AdminPenjualanRiwayatTracingController)
-  .controller("adminPenjualanBaruController", AdminPenjualanBaruController);
+  .controller("adminPenjualanBaruController", AdminPenjualanBaruController)
+  .controller("adminRegionalController", AdminRegionalController)
+  .controller("adminKanwilController", AdminKanwilController)
 
 function adminController($scope, $state, AuthService) {
   if (!AuthService.userIsLogin()) {
@@ -270,5 +272,192 @@ function AdminPenjualanRiwayatTracingController($scope, $state, $stateParams, $h
       });
   }
 
+
+}
+
+function AdminRegionalController($scope, $state, $stateParams, $http, AuthService, helperServices, swangular) {
+  this.$onInit = function () {
+    $http({
+      method: "get",
+      url: helperServices.url + "/api/regional",
+      headers: AuthService.getHeader()
+    }).then(
+      function successCallback(response) {
+        $scope.data = response.data;
+      },
+      function errorCallback(response) {
+        swangular.swal({
+          title: 'Error',
+          text: response.data.message,
+          type: 'error',
+          showCancelButton: false,
+          confirmButtonText: 'close'
+        });
+      }
+    );
+  }
+
+  $scope.createNew = () => {
+    $scope.regional = {};
+  }
+
+
+  $scope.edit = (a) => {
+    $scope.regional = a;
+  }
+
+
+  $scope.save = function () {
+
+    var req = {
+      method: $scope.regional.id ? "put" : "post",
+      url: helperServices.url + "/api/regional",
+      data: $scope.regional,
+      headers: AuthService.getHeader()
+    };
+
+    $http(req).then(
+      function successCallback(response) {
+        $scope.createNew();
+
+
+        swangular.swal({
+          title: 'Success',
+          text: response.message,
+          type: 'success',
+          showCancelButton: false,
+          confirmButtonText: 'close'
+        });
+
+        $("#exampleModal").modal('hide');
+      },
+      function errorCallback(response) {
+        swangular.swal({
+          title: 'Error',
+          text: response.data.message,
+          type: 'error',
+          showCancelButton: false,
+          confirmButtonText: 'close'
+        });
+      }
+    );
+  };
+}
+
+function AdminKanwilController($scope, $state, $stateParams, $http, AuthService, helperServices, swangular) {
+  this.$onInit = function () {
+    if ($stateParams.id) {
+      var id = $stateParams.id;
+      $http({
+        method: "get",
+        url: helperServices.url + "/api/regional/" + id,
+        headers: AuthService.getHeader()
+      }).then(
+        function successCallback(response) {
+          $scope.model = response.data;
+        },
+        function errorCallback(response) {
+          swangular.swal({
+            title: 'Error',
+            text: response.data.message,
+            type: 'error',
+            showCancelButton: false,
+            confirmButtonText: 'close'
+          });
+        }
+      );
+    }
+  }
+
+  $scope.createNew = () => {
+    $scope.kanwil = {
+      regionalid: $stateParams.id
+    };
+  }
+
+  $scope.edit = (a) => {
+    $scope.kanwil = a;
+  }
+
+  $scope.save = function () {
+    var req = {
+      method: $scope.kanwil.id ? "put" : "post",
+      url: helperServices.url + "/api/kanwil" + ($scope.kanwil.id ? "/" + $scope.kanwil.id : ""),
+      data: $scope.kanwil,
+      headers: AuthService.getHeader()
+    };
+
+    $http(req).then(
+      function successCallback(response) {
+        if (!$scope.kanwil.id) {
+          $scope.kanwil.id = response.data;
+          $scope.model.items.push($scope.kanwil);
+        }
+        $scope.createNew();
+        swangular.swal({
+          title: 'Success',
+          text: response.message,
+          type: 'success',
+          showCancelButton: false,
+          confirmButtonText: 'close'
+        });
+
+        $("#exampleModal").modal('hide');
+      },
+      function errorCallback(response) {
+        swangular.swal({
+          title: 'Error',
+          text: response.data.message,
+          type: 'error',
+          showCancelButton: false,
+          confirmButtonText: 'close'
+        });
+      }
+    );
+  };
+
+
+  $scope.delete = (data) => {
+    swangular.swal({
+      text: 'Yakin Hapus Data ?',
+      title: "Delete",
+      type: 'error',
+      showCancelButton: true,
+      confirmButtonText: 'Delete'
+    })
+      .then(x => {
+        if (x.value) {
+          $http({
+            method: "delete",
+            url: helperServices.url + "/api/kanwil/" + data.id,
+            headers: AuthService.getHeader()
+          }).then(
+            function successCallback(response) {
+
+              var index = $scope.model.items.indexOf(data);
+              $scope.model.items.splice(index, 1);
+              swangular.swal({
+                title: 'succes',
+                text: response.data.message,
+                type: 'success',
+                showCancelButton: false,
+                confirmButtonText: 'close'
+              });
+            },
+            function errorCallback(response) {
+              swangular.swal({
+                title: 'Error',
+                text: response.data.message,
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'close'
+              });
+            }
+          );
+        }
+
+      });
+
+  }
 
 }

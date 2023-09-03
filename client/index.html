@@ -80,8 +80,6 @@
 
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <script src="/scripts/admin-lte/dist/js/pages/dashboard.js"></script>
-
-
   <script src="/scripts/angular/angular.js"></script>
   <script src="./scripts/angular-route/angular-route.js"></script>
   <script src="./scripts/@uirouter/angularjs/release/angular-ui-router.js"></script>
@@ -92,37 +90,15 @@
   <script src="./apps/js/controllers/auth.controllers.js"></script>
   <script src="./apps/js/controllers/admin.controller.js"></script>
   <script src="./apps/js/controllers/main.controller.js"></script>
-
   <script src="./apps/js/services/message.services.js"></script>
   <script src="./apps/js/services/auth.services.js"></script>
   <script src="./apps/js/services/storage.services.js"></script>
   <script src="./apps/js/services/helper.services.js"></script>
-
   <script src="./apps/js/component.js"></script>
   <script src="/scripts/sweetalert2/dist/sweetalert2.all.js"></script>
   <script src="/scripts/swangular/swangular.js"></script>
-
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-
-
-  <script>
-    setTimeout(() => {
-      var map = L.map('map').setView([-2.274, 120.141], 5);
-      var om = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      })
-
-      om.addTo(map);
-    
-      L.marker([-2.274, 120.241 ]).addTo(map)
-        .bindPopup('Cabang Makassar')
-        .openPopup();
-        L.marker([  0.659,123.816 ]).addTo(map)
-        .bindPopup('Cabang Menado')
-        .openPopup();
-    }, 2000)
-  </script>
 </body>
 
 </html>

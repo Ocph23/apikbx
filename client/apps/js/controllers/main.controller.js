@@ -9,7 +9,49 @@ angular
   .controller("productController", ProductController)
 
 
-function HomeController($scope, $state) {
+function HomeController($scope, $state, $http, helperServices, AuthService, swangular) {
+
+  this.$onInit = function () {
+    var map = L.map('map').setView([-2.274, 120.141], 5);
+    var om = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    })
+    om.addTo(map);
+    $http({
+      method: "get",
+      url: helperServices.url + "/api/regional/withkanwil",
+      headers: AuthService.getHeader()
+    }).then(
+      function successCallback(response) {
+        $scope.model = response.data;
+        $scope.model.forEach((x, y) => {
+
+          if (x.items) {
+            x.items.forEach((item, index) => {
+
+              if (item.kordinat) {
+                try {
+                  L.marker([item.kordinat.split(',')[0], item.kordinat.split(',')[1]]).addTo(map)
+                    .bindPopup(item.nama)
+                    .openPopup();
+                } catch (e) {
+
+                }
+              }
+
+
+            })
+          }
+        })
+      });
+
+
+  }
+
+
+
+
+
   $scope.layanans = [
     { name: "Darat", picture: "/images/keybe-xpress-darat.png" },
     { name: "Laut", picture: "/images/keybe-xpress-laut.png" },
@@ -46,7 +88,7 @@ function TrackingController($scope, $stateParams, $http, helperServices, AuthSer
   }
 
   $scope.tracking = (resi) => {
-    $scope.model=null;
+    $scope.model = null;
     $http({
       method: "get",
       url: helperServices.url + "/api/tracking/bystt/" + resi,
@@ -97,7 +139,70 @@ function AgenController($scope) {
   ]
 
 }
-function KanwilController($scope) { }
+function KanwilController($scope, $http, AuthService, helperServices, swangular) {
+  this.$onInit = function () {
+    $http({
+      method: "get",
+      url: helperServices.url + "/api/regional/withkanwil",
+      headers: AuthService.getHeader()
+    }).then(
+      function successCallback(response) {
+        $scope.model = response.data;
+
+        setTimeout(() => {
+          var map = L.map('map').setView([-2.274, 120.141], 5);
+          var om = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          })
+
+          om.addTo(map);
+
+          $scope.model.forEach((x, y) => {
+
+            if (x.items) {
+              x.items.forEach((item, index) => {
+
+                if (item.kordinat) {
+                  try {
+                    L.marker([item.kordinat.split(',')[0], item.kordinat.split(',')[1]]).addTo(map)
+                      .bindPopup(item.nama)
+                      .openPopup();
+                  } catch (e) {
+
+                  }
+                }
+
+
+              })
+            }
+
+
+
+
+          })
+        }, 1000)
+
+
+
+
+      },
+      function errorCallback(response) {
+        swangular.swal({
+          title: 'Error',
+          text: response.data.message,
+          type: 'error',
+          showCancelButton: false,
+          confirmButtonText: 'close'
+        });
+      }
+    );
+
+
+  }
+
+
+
+}
 function ContactController($scope) { }
 function ProductController($scope) {
   $scope.products = [

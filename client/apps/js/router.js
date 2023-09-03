@@ -113,6 +113,20 @@ angular.module("app.router", ["ui.router"])
                 templateUrl: '../apps/views/admins/penjualanriwayattracing.html'
             })
 
+            .state('adminRegional', {
+                url: '/regional',
+                parent: 'admin',
+                controller: 'adminRegionalController',
+                templateUrl: '../apps/views/admins/regional.html'
+            })
+
+            .state('adminKanwil', {
+                url: '/kanwil/:id',
+                params:{id:null},
+                parent: 'admin',
+                controller: 'adminKanwilController',
+                templateUrl: '../apps/views/admins/kanwil.html'
+            })
 
 
     });

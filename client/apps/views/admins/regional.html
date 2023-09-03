@@ -1,0 +1,97 @@
+<div class="content-header">
+  <div class="container-fluid">
+    <h1 class="m-0">Penjualan</h1>
+  </div><!-- /.container-fluid -->
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Data Regional</h3>
+
+        <div class="card-tools">
+          <div class="input-group input-group-sm" style="width: 200px;">
+            <input type="text" ng-model="searchText" name="table_search" class="form-control float-right"
+              placeholder="Search">
+            <div class="input-group-append">
+              <button type="submit" class="btn btn-default" ng-click="search()">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+            <div class="input-group-append">
+              <button ng-click="createNew()" type="button" class="btn btn-primary" data-toggle="modal"
+                data-target="#exampleModal">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body table-responsive p-0" style="height: 300px;">
+        <table class="table table-head-fixed text-nowrap">
+          <thead>
+            <tr>
+              <th>Kode</th>
+              <th>Nama</th>
+              <th>Keterangan</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr ng-repeat="a in data">
+              <td>{{a.id}}</td>
+              <td>{{a.name}}</td>
+              <td>{{a.description}}</td>
+              <td style="width: 150px;">
+                <a ng-click="edit(a)" data-toggle="modal"
+                data-target="#exampleModal" style="padding: 5px 10px;" class="btn btn-warning"> <i
+                    class="fas fa-edit"></i> </a>
+                <a href="#!admin/kanwil/{{a.id}}" style="padding: 5px 10px;" class="btn btn-warning"> <i
+                    class="fas fa-list"></i> </a>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form ng-submit="save()">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Tambah/Edit</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Nama regional</label>
+            <input required ng-model="regional.name" type="text" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Deskripsi </label>
+            <textarea required ng-model="regional.description" class="form-control"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
