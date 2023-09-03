@@ -32,6 +32,8 @@
   <link rel="stylesheet" href="/scripts/sweetalert2/dist/sweetalert2.min.css">
   <link rel="stylesheet" href="./apps/css/main.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
 </head>
 
@@ -100,7 +102,27 @@
   <script src="/scripts/sweetalert2/dist/sweetalert2.all.js"></script>
   <script src="/scripts/swangular/swangular.js"></script>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
+
+  <script>
+    setTimeout(() => {
+      var map = L.map('map').setView([-2.274, 120.141], 5);
+      var om = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      })
+
+      om.addTo(map);
+    
+      L.marker([-2.274, 120.241 ]).addTo(map)
+        .bindPopup('Cabang Makassar')
+        .openPopup();
+        L.marker([  0.659,123.816 ]).addTo(map)
+        .bindPopup('Cabang Menado')
+        .openPopup();
+    }, 2000)
+  </script>
 </body>
 
 </html>
