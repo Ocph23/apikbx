@@ -1,9 +1,7 @@
 const express = require("express");
 const app = express();
 const port = 3000;
-
 require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
-
 const penjualanRoute = require('./server/penjualan');
 const trackingRoute = require('./server/tracking');
 const userRouter = require('./server/auth');
@@ -22,5 +20,6 @@ app.use("/api/tracking", trackingRoute);
 app.use("/api/auth", userRouter);
 
 app.listen(port, () => {
+  helper.logger.log("info", process.env.user +"   "+ process.env.password +"   " +process.env.database);
   console.log(`Example app listening on http://localhost:${port}`);
 });

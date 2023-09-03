@@ -8,7 +8,7 @@ angular.module("auth.service", [])
 
 
 
-function AuthService($http, $q, StorageService, $state, helperServices) {
+function AuthService($http, $q, StorageService, $state, helperServices,swangular) {
 
     var service = {};
 
@@ -28,6 +28,13 @@ function AuthService($http, $q, StorageService, $state, helperServices) {
             StorageService.addObject("user", res.data);
             def.resolve(res.data);
          }, err => { 
+            swangular.swal({
+                title: 'Error',
+                text: response.data.message,
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'close'
+              });
          });
         return def.promise;
     }

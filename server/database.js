@@ -10,6 +10,7 @@ let connection = mysql.createConnection({
 });
 
 connection.connect(function(error){
+    helper.logger.log("info", process.env.user +"   "+ process.env.password +"   " +process.env.database)
    if(error){
      helper.logger.log("error",error.code + error.message)
    }else{

@@ -4,8 +4,7 @@ angular.module("helper.service", [])
 
 function helperServices() {
     var service = {};
-   // service.url = "http://localhost:3000";
-    service.url = "https://api.keybexpress.com";
+    service.url = location.origin;
     calculateTotal = (model) => {
         var volume=0;
         if (model.isvolume) {

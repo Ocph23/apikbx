@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 var connection = require("./database");
 var middleware = require('./middleware')
+var helper = require('./helper')
 
 router.get("/penjualan", middleware.authenticateToken, (req, res) => {
     const filters = req.query;
@@ -9,12 +10,12 @@ router.get("/penjualan", middleware.authenticateToken, (req, res) => {
     if (filters) {
         query += "where stt like '%" + filters.stt + "%'  or  pengirim_nama like '%" + filters.stt + "%' or  penerima_nama like '%" + filters.stt + "%' ; ";
     }
-
     connection.query(
         query,
         function (err, rows) {
-            
-
+            if (err) {
+                helper.logger.log("error", err.message)
+            }
 
             res.send(rows);
         }
@@ -40,7 +41,7 @@ router.post("/penjualan", middleware.authenticateToken, (req, res) => {
             if (err) {
                 message = 'Gagal insert data!';
                 if (err.errno == 1062)
-                    message = "Gagal insert data!, '"+data.stt +"'  Data sudah ada !";
+                    message = "Gagal insert data!, '" + data.stt + "'  Data sudah ada !";
                 return res.status(500).json({ message: message, error: err });
             }
             res.status(201).json({ success: true, message: 'Berhasil insert data!' });

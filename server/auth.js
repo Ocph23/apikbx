@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken');
-
+const helper = require('./helper')
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -29,6 +29,7 @@ router.post("/login", (req, res) => {
                     return res.send(authresponse);
                 }
             }
+            helper.logger.log("error", err.message);
             return res.status(401).json({ message: "anda tidak memmiliki akses !", error: err });
         }
     );
