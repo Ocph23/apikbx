@@ -1,29 +1,29 @@
 angular.module("message.service", []).factory("message", MessageServices);
 
-function MessageServices(swangular, $q) {
+function MessageServices(SweetAlert, $q) {
   return { info: info, error: error, warning: warning, dialog: dialog };
 
   function info(params) {
-    swangular.swal({
+    SweetAlert.swal({
       title: "Sukses",
       text: params,
-      type: "info"
+      icon: "info"
     });
   }
 
   function error(params) {
-    swangular.swal({
+    SweetAlert.swal({
       title: "Error",
       text: params,
-      type: "error"
+      icon: "error"
     });
   }
 
   function warning(params) {
-    swangular.swal({
+    SweetAlert.swal({
       title: "Sukses",
       text: params,
-      type: "warning"
+      icon: "warning"
     });
   }
 
@@ -36,11 +36,11 @@ function MessageServices(swangular, $q) {
 
     if (cancelBtn) cancelText = cancelBtn;
 
-    swangular
+    SweetAlert
       .swal({
         title: "Yakin ?",
         text: messageText,
-        type: "warning",
+        icon: "warning",
         showCancelButton: true,
         confirmButtonText: yesText,
         cancelButtonText: cancelText,

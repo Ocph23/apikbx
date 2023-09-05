@@ -17,7 +17,7 @@ function adminController($scope, $state, AuthService) {
   };
 }
 
-function AdminPenjualanController($scope, $http, $state, helperServices, swangular, AuthService) {
+function AdminPenjualanController($scope, $http, $state, helperServices, SweetAlert, AuthService) {
 
   $scope.helper = helperServices;
   $scope.data = [];
@@ -30,10 +30,10 @@ function AdminPenjualanController($scope, $http, $state, helperServices, swangul
       function successCallback(response) {
         $scope.data = response.data;
         if (!$scope.data || $scope.data.length <= 0) {
-          swangular.swal({
+          SweetAlert.swal({
             title: 'Not Found',
             text: "Data Tidak Ditemukan",
-            type: 'warning',
+            icon: 'warning',
             showCancelButton: false,
             confirmButtonText: 'close'
           });
@@ -41,10 +41,10 @@ function AdminPenjualanController($scope, $http, $state, helperServices, swangul
         }
       },
       function errorCallback(response) {
-        swangular.swal({
+        SweetAlert.swal({
           title: 'Error',
           text: response.data.message,
-          type: 'error',
+          icon: 'error',
           showCancelButton: false,
           confirmButtonText: 'close'
         });
@@ -57,7 +57,7 @@ function AdminPenjualanController($scope, $http, $state, helperServices, swangul
 
 }
 
-function AdminPenjualanBaruController($scope, $state, $stateParams, $http, AuthService, helperServices, swangular) {
+function AdminPenjualanBaruController($scope, $state, $stateParams, $http, AuthService, helperServices, SweetAlert) {
   this.$onInit = function () {
     if ($stateParams.id) {
       var id = $stateParams.id;
@@ -75,10 +75,10 @@ function AdminPenjualanBaruController($scope, $state, $stateParams, $http, AuthS
           $scope.total = result.total;
         },
         function errorCallback(response) {
-          swangular.swal({
+          SweetAlert.swal({
             title: 'Error',
             text: response.data.message,
-            type: 'error',
+            icon: 'error',
             showCancelButton: false,
             confirmButtonText: 'close'
           });
@@ -117,19 +117,19 @@ function AdminPenjualanBaruController($scope, $state, $stateParams, $http, AuthS
     $http(req).then(
       function successCallback(response) {
         $scope.createNewModel();
-        swangular.swal({
+        SweetAlert.swal({
           title: 'Success',
           text: response.message,
-          type: 'success',
+          icon: 'success',
           showCancelButton: false,
           confirmButtonText: 'close'
         });
       },
       function errorCallback(response) {
-        swangular.swal({
+        SweetAlert.swal({
           title: 'Error',
           text: response.data.message,
-          type: 'error',
+          icon: 'error',
           showCancelButton: false,
           confirmButtonText: 'close'
         });
@@ -151,11 +151,13 @@ function AdminPenjualanBaruController($scope, $state, $stateParams, $http, AuthS
     $scope.model.biaya_lain = 0;
     $scope.model.tanggal = new Date();
     $scope.model.user = AuthService.getUserName();
+    $scope.biaya = 0;
+    $scope.total = 0;
   }
 }
 
 
-function AdminPenjualanRiwayatTracingController($scope, $state, $stateParams, $http, AuthService, helperServices, swangular) {
+function AdminPenjualanRiwayatTracingController($scope, $state, $stateParams, $http, AuthService, helperServices, SweetAlert) {
 
   this.$onInit = function () {
     if ($stateParams.id) {
@@ -173,10 +175,10 @@ function AdminPenjualanRiwayatTracingController($scope, $state, $stateParams, $h
           $scope.total = result.total;
         },
         function errorCallback(response) {
-          swangular.swal({
+          SweetAlert.swal({
             title: 'Error',
             text: response.data.message,
-            type: 'error',
+            icon: 'error',
             showCancelButton: false,
             confirmButtonText: 'close'
           });
@@ -201,19 +203,19 @@ function AdminPenjualanRiwayatTracingController($scope, $state, $stateParams, $h
     }).then(
       function successCallback(response) {
         $('#exampleModal').modal('hide');
-        swangular.swal({
+        SweetAlert.swal({
           title: 'Success',
           text: response.message,
-          type: 'success',
+          icon: 'success',
           showCancelButton: false,
           confirmButtonText: 'close'
         });
       },
       function errorCallback(response) {
-        swangular.swal({
+        SweetAlert.swal({
           title: 'Error',
           text: response.data.message,
-          type: 'error',
+          icon: 'error',
           showCancelButton: false,
           confirmButtonText: 'close'
         });
@@ -231,10 +233,10 @@ function AdminPenjualanRiwayatTracingController($scope, $state, $stateParams, $h
 
 
   $scope.delete = (data) => {
-    swangular.swal({
+    SweetAlert.swal({
       text: 'Yakin Hapus Data ?',
       title: "Delete",
-      type: 'error',
+      icon: 'error',
       showCancelButton: true,
       confirmButtonText: 'Delete'
     })
@@ -249,19 +251,19 @@ function AdminPenjualanRiwayatTracingController($scope, $state, $stateParams, $h
 
               var index = $scope.model.tracking.indexOf(data);
               $scope.model.tracking.splice(index, 1);
-              swangular.swal({
+              SweetAlert.swal({
                 title: 'succes',
                 text: response.data.message,
-                type: 'success',
+                icon: 'success',
                 showCancelButton: false,
                 confirmButtonText: 'close'
               });
             },
             function errorCallback(response) {
-              swangular.swal({
+              SweetAlert.swal({
                 title: 'Error',
                 text: response.data.message,
-                type: 'error',
+                icon: 'error',
                 showCancelButton: false,
                 confirmButtonText: 'close'
               });
@@ -275,7 +277,7 @@ function AdminPenjualanRiwayatTracingController($scope, $state, $stateParams, $h
 
 }
 
-function AdminRegionalController($scope, $state, $stateParams, $http, AuthService, helperServices, swangular) {
+function AdminRegionalController($scope, $state, $stateParams, $http, AuthService, helperServices, SweetAlert) {
   this.$onInit = function () {
     $http({
       method: "get",
@@ -286,10 +288,10 @@ function AdminRegionalController($scope, $state, $stateParams, $http, AuthServic
         $scope.data = response.data;
       },
       function errorCallback(response) {
-        swangular.swal({
+        SweetAlert.swal({
           title: 'Error',
           text: response.data.message,
-          type: 'error',
+          icon: 'error',
           showCancelButton: false,
           confirmButtonText: 'close'
         });
@@ -321,10 +323,10 @@ function AdminRegionalController($scope, $state, $stateParams, $http, AuthServic
         $scope.createNew();
 
 
-        swangular.swal({
+        SweetAlert.swal({
           title: 'Success',
           text: response.message,
-          type: 'success',
+          icon: 'success',
           showCancelButton: false,
           confirmButtonText: 'close'
         });
@@ -332,10 +334,10 @@ function AdminRegionalController($scope, $state, $stateParams, $http, AuthServic
         $("#exampleModal").modal('hide');
       },
       function errorCallback(response) {
-        swangular.swal({
+        SweetAlert.swal({
           title: 'Error',
           text: response.data.message,
-          type: 'error',
+          icon: 'error',
           showCancelButton: false,
           confirmButtonText: 'close'
         });
@@ -344,7 +346,7 @@ function AdminRegionalController($scope, $state, $stateParams, $http, AuthServic
   };
 }
 
-function AdminKanwilController($scope, $state, $stateParams, $http, AuthService, helperServices, swangular) {
+function AdminKanwilController($scope, $state, $stateParams, $http, AuthService, helperServices, SweetAlert, SweetAlert) {
   this.$onInit = function () {
     if ($stateParams.id) {
       var id = $stateParams.id;
@@ -357,10 +359,10 @@ function AdminKanwilController($scope, $state, $stateParams, $http, AuthService,
           $scope.model = response.data;
         },
         function errorCallback(response) {
-          swangular.swal({
+          SweetAlert.swal({
             title: 'Error',
             text: response.data.message,
-            type: 'error',
+            icon: 'error',
             showCancelButton: false,
             confirmButtonText: 'close'
           });
@@ -390,25 +392,26 @@ function AdminKanwilController($scope, $state, $stateParams, $http, AuthService,
     $http(req).then(
       function successCallback(response) {
         if (!$scope.kanwil.id) {
-          $scope.kanwil.id = response.data;
+          $scope.kanwil.id = response.data.data;
           $scope.model.items.push($scope.kanwil);
         }
         $scope.createNew();
-        swangular.swal({
-          title: 'Success',
-          text: response.message,
-          type: 'success',
-          showCancelButton: false,
-          confirmButtonText: 'close'
-        });
+
+        SweetAlert.swal({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Berhasil !',
+          showConfirmButton: false,
+          timer: 1500
+        })
 
         $("#exampleModal").modal('hide');
       },
       function errorCallback(response) {
-        swangular.swal({
+        SweetAlert.swal({
           title: 'Error',
           text: response.data.message,
-          type: 'error',
+          icon: 'error',
           showCancelButton: false,
           confirmButtonText: 'close'
         });
@@ -418,12 +421,14 @@ function AdminKanwilController($scope, $state, $stateParams, $http, AuthService,
 
 
   $scope.delete = (data) => {
-    swangular.swal({
-      text: 'Yakin Hapus Data ?',
-      title: "Delete",
-      type: 'error',
+    SweetAlert.swal({
+      title: 'Are you sure?',
+      text: "Yakin Hapus Data ?",
+      icon: 'question',
       showCancelButton: true,
-      confirmButtonText: 'Delete'
+      confirmButtonText: 'Ya, Hapus !',
+      cancelButtonText: 'Batal',
+      reverseButtons: true
     })
       .then(x => {
         if (x.value) {
@@ -436,19 +441,19 @@ function AdminKanwilController($scope, $state, $stateParams, $http, AuthService,
 
               var index = $scope.model.items.indexOf(data);
               $scope.model.items.splice(index, 1);
-              swangular.swal({
+              SweetAlert.swal({
                 title: 'succes',
                 text: response.data.message,
-                type: 'success',
+                icon: 'success',
                 showCancelButton: false,
                 confirmButtonText: 'close'
               });
             },
             function errorCallback(response) {
-              swangular.swal({
+              SweetAlert.swal({
                 title: 'Error',
                 text: response.data.message,
-                type: 'error',
+                icon: 'error',
                 showCancelButton: false,
                 confirmButtonText: 'close'
               });
@@ -457,6 +462,8 @@ function AdminKanwilController($scope, $state, $stateParams, $http, AuthService,
         }
 
       });
+
+     
 
   }
 

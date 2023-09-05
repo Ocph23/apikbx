@@ -4,6 +4,8 @@
   "description": "app",
   "main": "index.js",
   "scripts": {
+    "start": "SET NODE_ENV=production&& nodemon index.js",
+    "debug": "SET NODE_ENV=development&& nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -27,7 +29,10 @@
     "font-awesome": "^4.7.0",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.6.0",
-    "swangular": "^1.4.3",
+    "sweetalert2": "^11.7.27",
     "winston": "^3.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }

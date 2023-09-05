@@ -9,9 +9,10 @@ angular
   .controller("productController", ProductController)
 
 
-function HomeController($scope, $state, $http, helperServices, AuthService, swangular) {
+function HomeController($scope, $state, $http, helperServices, AuthService, SweetAlert) {
 
   this.$onInit = function () {
+    $('.carousel').carousel()
     var map = L.map('map').setView([-2.274, 120.141], 5);
     var om = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -44,13 +45,7 @@ function HomeController($scope, $state, $http, helperServices, AuthService, swan
           }
         })
       });
-
-
   }
-
-
-
-
 
   $scope.layanans = [
     { name: "Darat", picture: "/images/keybe-xpress-darat.png" },
@@ -78,7 +73,7 @@ function HomeController($scope, $state, $http, helperServices, AuthService, swan
 
 }
 
-function TrackingController($scope, $stateParams, $http, helperServices, AuthService, swangular) {
+function TrackingController($scope, $stateParams, $http, helperServices, AuthService, SweetAlert) {
 
   this.$onInit = () => {
     if ($stateParams.id) {
@@ -98,10 +93,10 @@ function TrackingController($scope, $stateParams, $http, helperServices, AuthSer
         $scope.model = response.data;
       },
       function errorCallback(response) {
-        swangular.swal({
+        SweetAlert.swal({
           title: 'Error',
           text: response.data.message,
-          type: 'warning',
+          icon: 'warning',
           showCancelButton: false,
           confirmButtonText: 'close'
         });
@@ -139,7 +134,7 @@ function AgenController($scope) {
   ]
 
 }
-function KanwilController($scope, $http, AuthService, helperServices, swangular) {
+function KanwilController($scope, $http, AuthService, helperServices, SweetAlert) {
   this.$onInit = function () {
     $http({
       method: "get",
@@ -187,10 +182,10 @@ function KanwilController($scope, $http, AuthService, helperServices, swangular)
 
       },
       function errorCallback(response) {
-        swangular.swal({
+        SweetAlert.swal({
           title: 'Error',
           text: response.data.message,
-          type: 'error',
+          icon: 'error',
           showCancelButton: false,
           confirmButtonText: 'close'
         });

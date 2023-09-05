@@ -8,7 +8,7 @@ angular.module("auth.service", [])
 
 
 
-function AuthService($http, $q, StorageService, $state, helperServices,swangular) {
+function AuthService($http, $q, StorageService, $state, helperServices,SweetAlert) {
 
     var service = {};
 
@@ -28,10 +28,10 @@ function AuthService($http, $q, StorageService, $state, helperServices,swangular
             StorageService.addObject("user", res.data);
             def.resolve(res.data);
          }, err => { 
-            swangular.swal({
+            SweetAlert.swal({
                 title: 'Error',
                 text: response.data.message,
-                type: 'error',
+                icon: 'error',
                 showCancelButton: false,
                 confirmButtonText: 'close'
               });
