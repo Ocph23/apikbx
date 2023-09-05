@@ -30,9 +30,9 @@ router.get("/penjualan/search/:searchText", middleware.authenticateToken, (req, 
 
 router.get("/penjualan/date", middleware.authenticateToken, (req, res) => {
     const filters = req.query;
-    var query = "select * from penjualan where month(tanggal)=? and year(tanggal)=? ";
+    var query = `select * from penjualan where month(tanggal)=${Number(filters.month)+1} and year(tanggal)=${filters.year}  order by stt DESC`;
     connection.query(
-        query,[filters.month-1, filters.year],
+        query,[filters.month+1, filters.year],
         function (err, rows) {
             if (err) {
                 helper.logger.log("error", err.message)
@@ -46,7 +46,7 @@ router.get("/penjualan/date", middleware.authenticateToken, (req, res) => {
 
 
 router.get("/penjualan", middleware.authenticateToken, (req, res) => {
-    var query = "select * from penjualan order by tanggal ";
+    var query = "select * from penjualan order by stt DESC LIMIT 20";
     connection.query(
         query,
         function (err, rows) {
