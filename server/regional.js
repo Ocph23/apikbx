@@ -55,7 +55,7 @@ router.post("/", middleware.authenticateToken, (req, res) => {
                     message = "Gagal insert data!,  Data sudah ada !";
                 return res.status(500).json({ message: message, error: err });
             }
-            res.status(201).json({ success: true, message: 'Berhasil insert data!' });
+            res.status(201).json({ id:rows.insertId, success: true, message: 'Berhasil insert data!' });
         }
     );
 });

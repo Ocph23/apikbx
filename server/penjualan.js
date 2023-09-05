@@ -4,12 +4,49 @@ var connection = require("./database");
 var middleware = require('./middleware')
 var helper = require('./helper')
 
-router.get("/penjualan", middleware.authenticateToken, (req, res) => {
-    const filters = req.query;
+router.get("/penjualan/search/:searchText", middleware.authenticateToken, (req, res) => {
+    const filters = req.params.searchText;
     var query = "select * from penjualan ";
     if (filters) {
-        query += "where stt like '%" + filters.stt + "%'  or  pengirim_nama like '%" + filters.stt + "%' or  penerima_nama like '%" + filters.stt + "%' ; ";
+        query += "where stt like '%" + 
+        filters + "%'  or  pengirim_nama like '%" + 
+        filters + "%' or  penerima_nama like '%" +
+        filters + "%' or  asal like '%" +
+        filters + "%' or  tujuan like '%" +
+        filters + "%' ; ";
     }
+    connection.query(
+        query,
+        function (err, rows) {
+            if (err) {
+                helper.logger.log("error", err.message)
+            }
+            res.send(rows);
+        }
+    );
+});
+
+
+
+router.get("/penjualan/date", middleware.authenticateToken, (req, res) => {
+    const filters = req.query;
+    var query = "select * from penjualan where month(tanggal)=? and year(tanggal)=? ";
+    connection.query(
+        query,[filters.month-1, filters.year],
+        function (err, rows) {
+            if (err) {
+                helper.logger.log("error", err.message)
+            }
+            res.send(rows);
+        }
+    );
+});
+
+
+
+
+router.get("/penjualan", middleware.authenticateToken, (req, res) => {
+    var query = "select * from penjualan order by tanggal ";
     connection.query(
         query,
         function (err, rows) {

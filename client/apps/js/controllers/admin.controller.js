@@ -18,14 +18,81 @@ function adminController($scope, $state, AuthService) {
 }
 
 function AdminPenjualanController($scope, $http, $state, helperServices, SweetAlert, AuthService) {
-
   $scope.helper = helperServices;
   $scope.data = [];
+
+  this.$onInit = () => {
+    $http({
+      method: "get",
+      url: helperServices.url + "/api/penjualan",
+      headers: AuthService.getHeader()
+    }).then(
+      function successCallback(response) {
+        $scope.data = response.data;
+        if (!$scope.data || $scope.data.length <= 0) {
+          SweetAlert.swal({
+            title: 'Not Found',
+            text: "Data Tidak Ditemukan",
+            icon: 'warning',
+            showCancelButton: false,
+            confirmButtonText: 'close'
+          });
+
+        }
+      },
+      function errorCallback(response) {
+        SweetAlert.swal({
+          title: 'Error',
+          text: response.data.message,
+          icon: 'error',
+          showCancelButton: false,
+          confirmButtonText: 'close'
+        });
+      }
+    );
+
+
+  }
+
   $scope.search = () => {
     $http({
       method: "get",
-      url: helperServices.url + "/api/penjualan?stt=" + $scope.searchText,
+      url: helperServices.url + "/api/penjualan/search/" + $scope.searchText,
       headers: AuthService.getHeader()
+    }).then(
+      function successCallback(response) {
+        $scope.data = response.data;
+        if (!$scope.data || $scope.data.length <= 0) {
+          SweetAlert.swal({
+            title: 'Not Found',
+            text: "Data Tidak Ditemukan",
+            icon: 'warning',
+            showCancelButton: false,
+            confirmButtonText: 'close'
+          });
+
+        }
+      },
+      function errorCallback(response) {
+        SweetAlert.swal({
+          title: 'Error',
+          text: response.data.message,
+          icon: 'error',
+          showCancelButton: false,
+          confirmButtonText: 'close'
+        });
+      }
+    );
+
+
+  }
+
+  $scope.changeDate = (date) => {
+    $http({
+      method: "get",
+      url: helperServices.url + `/api/penjualan/date?month=${date.getMonth()}&year=${date.getFullYear()}`,
+      headers: AuthService.getHeader(),
+      data: date
     }).then(
       function successCallback(response) {
         $scope.data = response.data;
@@ -202,14 +269,21 @@ function AdminPenjualanRiwayatTracingController($scope, $state, $stateParams, $h
       data: $scope.tracking,
     }).then(
       function successCallback(response) {
-        $('#exampleModal').modal('hide');
+        if (!$scope.tracking.id) {
+          $scope.tracking.id = response.data.id;
+          $scope.model.tracking.push($scope.tracking);  
+        }
+
+
         SweetAlert.swal({
           title: 'Success',
           text: response.message,
           icon: 'success',
-          showCancelButton: false,
-          confirmButtonText: 'close'
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500
         });
+        $('#exampleModal').modal('hide');
       },
       function errorCallback(response) {
         SweetAlert.swal({
@@ -238,7 +312,7 @@ function AdminPenjualanRiwayatTracingController($scope, $state, $stateParams, $h
       title: "Delete",
       icon: 'error',
       showCancelButton: true,
-      confirmButtonText: 'Delete'
+      confirmButtonText: 'Hapus'
     })
       .then(x => {
         if (x.value) {
@@ -320,17 +394,21 @@ function AdminRegionalController($scope, $state, $stateParams, $http, AuthServic
 
     $http(req).then(
       function successCallback(response) {
-        $scope.createNew();
-
+        if (!$scope.regional.id) {
+          $scope.regional.id = response.data.id
+          $scope.data.push($scope.regional)
+        }
 
         SweetAlert.swal({
           title: 'Success',
           text: response.message,
           icon: 'success',
-          showCancelButton: false,
-          confirmButtonText: 'close'
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500
         });
 
+        $scope.createNew();
         $("#exampleModal").modal('hide');
       },
       function errorCallback(response) {
@@ -344,6 +422,55 @@ function AdminRegionalController($scope, $state, $stateParams, $http, AuthServic
       }
     );
   };
+
+
+  $scope.delete = (data) => {
+    SweetAlert.swal({
+      title: 'Are you sure?',
+      text: "Yakin Hapus Data ?",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Ya, Hapus !',
+      cancelButtonText: 'Batal',
+      reverseButtons: true
+    })
+      .then(x => {
+        if (x.value) {
+          $http({
+            method: "delete",
+            url: helperServices.url + "/api/regional/" + data.id,
+            headers: AuthService.getHeader()
+          }).then(
+            function successCallback(response) {
+
+              var index = $scope.data.indexOf(data);
+              $scope.data.splice(index, 1);
+              SweetAlert.swal({
+                title: 'succes',
+                text: "Data berhasil dihapus !",
+                icon: 'success',
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 1500
+              });
+            },
+            function errorCallback(response) {
+              SweetAlert.swal({
+                title: 'Error',
+                text: response.data.message,
+                icon: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'close'
+              });
+            }
+          );
+        }
+
+      });
+
+
+
+  }
 }
 
 function AdminKanwilController($scope, $state, $stateParams, $http, AuthService, helperServices, SweetAlert, SweetAlert) {
@@ -445,8 +572,9 @@ function AdminKanwilController($scope, $state, $stateParams, $http, AuthService,
                 title: 'succes',
                 text: response.data.message,
                 icon: 'success',
-                showCancelButton: false,
-                confirmButtonText: 'close'
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 1500
               });
             },
             function errorCallback(response) {
@@ -463,7 +591,7 @@ function AdminKanwilController($scope, $state, $stateParams, $http, AuthService,
 
       });
 
-     
+
 
   }
 

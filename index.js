@@ -24,6 +24,6 @@ app.use("/api/regional", regionalRoute);
 app.use("/api/kanwil", kanwilRoute);
 
 app.listen(port, () => {
-  helper.logger.log("info", process.env.user +"   "+ process.env.password +"   " +process.env.database);
+  //helper.logger.log("info", process.env.user +"   "+ process.env.password +"   " +process.env.database);
   console.log(`Example app listening on http://localhost:${port}`);
 });
